@@ -34,9 +34,9 @@ def sigmoid(z: np.ndarray) -> np.ndarray:
     result=np.empty_like(z)
     
     positive=z>=0
-    result[psotive]=1/(1+np.exp(-z[positive]))
+    result[positive]=1/(1+np.exp(-z[positive]))
     
-    negative=~negtive
+    negative= ~positive
     exp_z=np.exp(z[negative])
     result[negative]=exp_z/(1+exp_z)
     
@@ -65,7 +65,7 @@ def softmax_loop(z: list) -> list:
     
     exp_values=[]
     for x in z:
-        exp_values.append(math.exp(x-z_mac))
+        exp_values.append(math.exp(x-z_max))
     
     total=sum(exp_values)
     
@@ -121,7 +121,7 @@ def entropy(p: np.ndarray) -> float:
     entropy_value=0.0
     for value in p:
         if value>0:
-            entropy_value-=value*n.log(value)
+            entropy_value-=value*np.log(value)
     return float(entropy_value)
 # ============================ END TODO (Task 4) ==============================
 
@@ -149,7 +149,7 @@ def cross_entropy(p: np.ndarray, q: np.ndarray) -> float:
     """
     eps=1e-12
     mask=p>0
-    q_safe=np.maximum(q,(eps)
+    q_safe=np.maximum(q,(eps))
     return float(-np.sum(p[mask]*np.log(q_safe[mask])))
 # ============================ END TODO (Task 5) ==============================
 
@@ -174,7 +174,7 @@ def kl_divergence(p: np.ndarray, q: np.ndarray) -> float:
     esp=1e-12
     mask=p>0
     p_safe=p[mask]
-    q_safe=np.maximum(q[mask],eps)
+    q_safe=np.maximum(q[mask],esp)
     return float(np.sum(p_safe*(np.log(p_safe)-np.log(q_safe))))
 # ============================ END TODO (Task 6) ==============================
 
@@ -217,7 +217,7 @@ def focal_loss(p: np.ndarray, q: np.ndarray, gamma: float = 2.0,
         alpha_values=alpha[mask]
     else:
         alpha_values=1.0
-    return float(-np,sum(alpha_values*p_values*focal_factor*np.log(q_values)))
+    return float(-np.sum(alpha_values*p_values*focal_factor*np.log(q_values)))
 # ============================ END TODO (Task 7) ==============================
 
 
